@@ -22,6 +22,7 @@ namespace esphome {
 namespace canbus_udp_multicast {
 
 int CanbusUdpMulticast::esp_join_multicast_group(int sockfd) {
+  char buf[256];
   struct ip_mreq imreq;
   struct in_addr iaddr;
   memset(&imreq, 0, sizeof(imreq));
@@ -35,6 +36,8 @@ int CanbusUdpMulticast::esp_join_multicast_group(int sockfd) {
     ESP_LOGE(TAG, "Failed to get IP address info. Error 0x%x", err);
     goto err;
   }
+  ESP_LOGI(TAG, "ip: %s", esp_ip4addr_ntoa(&ip_info.ip, buf, 256));
+
   inet_addr_from_ip4addr(&iaddr, &ip_info.ip);
   err = setsockopt(sockfd, IPPROTO_IP, IP_MULTICAST_IF, &iaddr, sizeof(struct in_addr));
   if (err < 0) {
