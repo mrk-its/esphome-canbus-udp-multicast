@@ -20,6 +20,7 @@ from esphome.components.canbus import (
 
 CONF_MULTICAST_IP = "multicast_ip"
 CONF_MULTICAST_PORT = "multicast_port"
+CONF_IF_KEY = "if_key"
 
 ns = cg.esphome_ns.namespace('canbus_udp_multicast')
 CanbusUdpMulticast = ns.class_(
@@ -34,6 +35,7 @@ CONFIG_SCHEMA = CANBUS_SCHEMA.extend({
     cv.Optional(CONF_CANBUS_ID): cv.use_id(CanbusComponent),
     cv.Optional(CONF_MULTICAST_IP, default="232.10.11.12"): cv.All(cv.ipv4, cv.string),
     cv.Optional(CONF_MULTICAST_PORT, default=43113): cv.int_range(min=0, max=65535),
+    cv.Optional(CONF_IF_KEY, default="WIFI_STA_DEF"): cv.string,
 
     cv.Optional(CONF_ON_FRAME): automation.validate_automation(
         {
@@ -61,6 +63,7 @@ async def to_code(config):
         canbus,
         config[CONF_MULTICAST_IP],
         config[CONF_MULTICAST_PORT],
+        config[CONF_IF_KEY],
     )
     await register_canbus(canbus_udp_multicast, config)
 

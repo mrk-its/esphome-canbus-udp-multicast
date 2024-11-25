@@ -14,6 +14,7 @@ const char *const TAG = "canbus_udp_multicast";
 class CanbusUdpMulticast : public canbus::Canbus {
   char *multicast_ip;
   int multicast_port;
+  char *if_key;
   bool is_initialized = false;
 
   struct sockaddr_in dest_addr;
@@ -22,10 +23,11 @@ class CanbusUdpMulticast : public canbus::Canbus {
  public:
   canbus::Canbus *canbus;
 
-  CanbusUdpMulticast(canbus::Canbus *canbus, const char *multicast_ip, int multicast_port) {
+  CanbusUdpMulticast(canbus::Canbus *canbus, const char *multicast_ip, int multicast_port, const char *if_key) {
     this->canbus = canbus;
     this->multicast_ip = (char *) multicast_ip;
     this->multicast_port = multicast_port;
+    this->if_key = (char *) if_key;
   };
 
   void send_udp_multicast(uint32_t can_id, bool use_extended_id, bool remote_transmission_request,
