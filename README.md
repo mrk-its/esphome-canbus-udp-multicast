@@ -4,6 +4,8 @@ Implementation of virtual [udp_multicast](https://python-can.readthedocs.io/en/s
 ## Configuration variables:
 * multicast_ip (Optional, string): ipv4 destination multicast address, defaults to 232.10.11.12 (default multicast ipv4 address of `udp_multicast` python-can interface)
 * multicast_port (Optional, int): ipv4 destination multicast port, defaults to 43113 (default port of `udp_multicast` python-can interface)
+* if_key (Optional, string): network interface key, defaults to `WIFI_STA_DEF`
+
 * canbus_id (Optional, string): optional id of physical canbus component where packets will be send to / read from.
 
 Example esphome config ([full file](examples/udp-multicast-can-interface.yaml))
