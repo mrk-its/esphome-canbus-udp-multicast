@@ -201,7 +201,7 @@ void CanbusUdpMulticast::loop() {
 
     canbus::CanFrame frame;
     if (decode_can_frame(udp_recv_buf, 256, &frame)) {
-      ESP_LOGD(TAG, "decoded frame: can_id: %ld, dlc: %d", frame.can_id, frame.can_data_length_code);
+      ESP_LOGD(TAG, "decoded frame: can_id: %uld, dlc: %d", frame.can_id, frame.can_data_length_code);
       send_message_no_loopback(&frame);
     }
 
@@ -275,7 +275,7 @@ void CanbusUdpMulticast::send_udp_multicast(uint32_t can_id, bool use_extended_i
   if (ret < 0) {
     ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
   } else {
-    ESP_LOGD(TAG, "sent, can_id: %03lx", can_id);
+    ESP_LOGD(TAG, "sent, can_id: %03ulx", can_id);
   }
 }
 
