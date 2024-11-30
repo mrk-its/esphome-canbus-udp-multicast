@@ -108,6 +108,9 @@ bool CanbusUdpMulticast::decode_can_frame(uint8_t *buffer, size_t len, struct ca
       } else
         break;
     }
+    if(data_size <= 8 && frame->can_data_length_code == 0xff ) {
+      frame->can_data_length_code = data_size;
+    }
     if (n == map_size && frame->can_id < 2048 && data_size <= 64 && frame->can_data_length_code < 0xff) {
       return true;
     }
@@ -197,7 +200,6 @@ void CanbusUdpMulticast::loop() {
     return;
 
   uint8_t udp_recv_buf[256];
-  ESP_LOGV(TAG, "calling recvfrom");
   int size = recvfrom(sockfd, udp_recv_buf, 256, MSG_DONTWAIT, 0, 0);
   if (size >= 0) {
     ESP_LOGV(TAG, "received message, len: %d", size);
