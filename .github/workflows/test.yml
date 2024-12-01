@@ -15,6 +15,7 @@ jobs:
           - "type=arduino version=recommended platform_version=5.4.0"
         board:
           - esp32-c3-devkitm-1
+          - esp32-s3-devkitc-1
           - wt32-eth01
     steps:
       - name: Checkout code
