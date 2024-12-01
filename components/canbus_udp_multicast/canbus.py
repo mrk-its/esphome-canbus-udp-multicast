@@ -1,8 +1,10 @@
 from itertools import groupby
+import logging
 import esphome.config_validation as cv
 import esphome.codegen as cg
 from esphome import automation
 from esphome.const import CONF_ID, CONF_TRIGGER_ID
+from esphome.core import CORE
 from esphome.components.esp32 import add_idf_sdkconfig_option
 from esphome.components.canbus import (
     CANBUS_SCHEMA,
@@ -10,6 +12,9 @@ from esphome.components.canbus import (
     CanbusComponent,
     register_canbus,
 )
+
+logger = logging.getLogger(__name__)
+
 
 CONF_MULTICAST_IP = "multicast_ip"
 CONF_MULTICAST_PORT = "multicast_port"
@@ -46,4 +51,7 @@ async def to_code(config):
         config[CONF_IF_KEY],
     )
     await register_canbus(canbus_udp_multicast, config)
-    add_idf_sdkconfig_option("CONFIG_LWIP_SO_RCVBUF", True)
+    if CORE.target_framework == 'esp-idf':
+        add_idf_sdkconfig_option("CONFIG_LWIP_SO_RCVBUF", True)
+    else:
+        logger.warning("RCVBUF cannot be set on arduino")
