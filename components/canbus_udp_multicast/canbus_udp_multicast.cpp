@@ -70,7 +70,7 @@ bool CanbusUdpMulticast::decode_can_frame(uint8_t *buffer, size_t len, struct ca
   if (cmp_read_map(&cmp, &map_size)) {
     int32_t num;
 
-    ESP_LOGV(TAG, "map_size: %ld", map_size);
+    ESP_LOGV(TAG, "map_size: %d", map_size);
     char key[33];
     for (n = 0; n < map_size; n++) {
       uint32_t size = 32;
