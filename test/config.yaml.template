@@ -1,0 +1,28 @@
+external_components:
+  - source: ../components
+
+esp32:
+  framework:
+    type: ${type}
+    version: ${version}
+    platform_version: ${platform_version}
+  board: ${board}
+
+logger:
+  level: VERBOSE
+
+esphome:
+  name: "test-node"
+
+wifi:
+  power_save_mode: none
+  networks:
+    - ssid: ssid
+      password: password
+
+api:
+
+canbus:
+  platform: canbus_udp_multicast
+  id: can_bus
+  can_id: 1
