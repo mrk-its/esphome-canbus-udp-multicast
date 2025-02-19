@@ -31,7 +31,7 @@ DEPENDENCIES = ["api"]
 CONFIG_SCHEMA = CANBUS_SCHEMA.extend({
     cv.GenerateID(): cv.declare_id(CanbusUdpMulticast),
     cv.Optional(CONF_CANBUS_ID): cv.use_id(CanbusComponent),
-    cv.Optional(CONF_MULTICAST_IP, default="232.10.11.12"): cv.All(cv.ipv4, cv.string),
+    cv.Optional(CONF_MULTICAST_IP, default="232.10.11.12"): cv.string,
     cv.Optional(CONF_MULTICAST_PORT, default=43113): cv.int_range(min=0, max=65535),
     cv.Optional(CONF_IF_KEY, default="WIFI_STA_DEF"): cv.string,
 })
