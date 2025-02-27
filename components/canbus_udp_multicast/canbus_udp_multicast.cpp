@@ -70,7 +70,7 @@ bool CanbusUdpMulticast::decode_can_frame(uint8_t *buffer, size_t len, struct ca
   if (cmp_read_map(&cmp, &map_size)) {
     int32_t num;
 
-    ESP_LOGV(TAG, "map_size: %u", map_size);
+    ESP_LOGV(TAG, "map_size: %lu", map_size);
     char key[33];
     for (n = 0; n < map_size; n++) {
       uint32_t size = 32;
@@ -78,14 +78,14 @@ bool CanbusUdpMulticast::decode_can_frame(uint8_t *buffer, size_t len, struct ca
         ESP_LOGV(TAG, "key: %s", key);
         if (!strncmp(key, "arbi", 4)) {
           if (cmp_read_int(&cmp, (int32_t *) &frame->can_id)) {
-            ESP_LOGV(TAG, "  %s: %u", key, frame->can_id);
+            ESP_LOGV(TAG, "  %s: %lu", key, frame->can_id);
           } else
             break;
         } else if (!strncmp(key, "data", 4)) {
           uint32_t size = 64;
           if (cmp_read_bin(&cmp, frame->data, &size)) {
             data_size = size;
-            ESP_LOGV(TAG, "  data size: %u", size);
+            ESP_LOGV(TAG, "  data size: %lu", size);
           } else
             break;
         } else if (!strcmp(key, "is_extended_id")) {
@@ -206,7 +206,7 @@ void CanbusUdpMulticast::loop() {
 
     canbus::CanFrame frame;
     if (decode_can_frame(udp_recv_buf, 256, &frame)) {
-      ESP_LOGD(TAG, "decoded frame: can_id: %03x, dlc: %d", frame.can_id, frame.can_data_length_code);
+      ESP_LOGD(TAG, "decoded frame: can_id: %03lx, dlc: %d", frame.can_id, frame.can_data_length_code);
       send_message_no_loopback(&frame);
     }
 
@@ -280,7 +280,7 @@ void CanbusUdpMulticast::send_udp_multicast(uint32_t can_id, bool use_extended_i
   if (ret < 0) {
     ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
   } else {
-    ESP_LOGD(TAG, "sent, can_id: %03x", can_id);
+    ESP_LOGD(TAG, "sent, can_id: %03lx", can_id);
   }
 }
 
